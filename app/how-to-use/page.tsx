@@ -2,126 +2,122 @@
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Home, HelpCircle, LogIn, UserPlus, Vote, CreditCard, Trophy, ArrowRight } from "lucide-react"
+import { Navigation } from "@/components/ui/navigation"
+import { UserPlus, LogIn, Vote, CreditCard, Trophy, ArrowRight, HelpCircle } from "lucide-react"
 import Link from "next/link"
 
+const steps = [
+  {
+    icon: UserPlus,
+    title: "Daftar Akun",
+    description: "Buat akun baru dengan email dan password yang valid untuk mulai menggunakan platform",
+    color: "text-blue-600",
+    bg: "bg-blue-50",
+  },
+  {
+    icon: LogIn,
+    title: "Login ke Dashboard",
+    description: "Masuk ke akun Anda dan akses dashboard untuk melihat semua fitur yang tersedia",
+    color: "text-green-600",
+    bg: "bg-green-50",
+  },
+  {
+    icon: Vote,
+    title: "Pilih Sekolah",
+    description: "Pilih sekolah favorit Anda dari daftar yang tersedia dan tentukan jumlah vote yang ingin diberikan",
+    color: "text-purple-600",
+    bg: "bg-purple-50",
+  },
+  {
+    icon: CreditCard,
+    title: "Bayar & Vote",
+    description: "Lakukan pembayaran yang aman dan vote Anda akan langsung terhitung dalam sistem",
+    color: "text-orange-600",
+    bg: "bg-orange-50",
+  },
+]
+
+const tips = [
+  "Satu akun dapat memberikan multiple vote untuk sekolah yang berbeda",
+  "Harga per vote adalah Rp 5.000 dengan sistem pembayaran yang aman",
+  "Vote dapat diberikan untuk sekolah yang berbeda sesuai preferensi Anda",
+  "Hasil voting dapat dilihat secara real-time di halaman statistik",
+  "Semua transaksi dilindungi dengan enkripsi SSL untuk keamanan maksimal",
+]
+
 export default function HowToUsePage() {
-  const steps = [
-    {
-      icon: <UserPlus className="w-8 h-8 text-blue-500" />,
-      title: "Daftar Akun",
-      description: "Buat akun baru dengan email dan password yang valid",
-      color: "bg-blue-100",
-    },
-    {
-      icon: <LogIn className="w-8 h-8 text-green-500" />,
-      title: "Login",
-      description: "Masuk ke akun Anda untuk mulai voting",
-      color: "bg-green-100",
-    },
-    {
-      icon: <Vote className="w-8 h-8 text-purple-500" />,
-      title: "Pilih Sekolah",
-      description: "Pilih sekolah favorit Anda dan tentukan jumlah vote",
-      color: "bg-purple-100",
-    },
-    {
-      icon: <CreditCard className="w-8 h-8 text-orange-500" />,
-      title: "Bayar & Vote",
-      description: "Lakukan pembayaran dan vote Anda akan terhitung",
-      color: "bg-orange-100",
-    },
-  ]
-
   return (
-    <div className="min-h-screen bg-yellow-100">
-      <header className="glass-effect sticky top-0 z-50 border-b border-white/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-14">
-            <div className="flex items-center space-x-2">
-              <div className="w-6 h-6 bg-purple-500 rounded-lg animate-wiggle"></div>
-              <h1 className="text-lg font-bold text-purple-600">SchoolVote</h1>
-            </div>
-            <div className="flex items-center space-x-4">
-              <Link href="/" className="p-2 hover:bg-purple-100 rounded-lg transition-colors">
-                <Home className="w-5 h-5 text-purple-600" />
-              </Link>
-              <Link href="/how-to-use" className="p-2 bg-purple-100 rounded-lg">
-                <HelpCircle className="w-5 h-5 text-purple-600" />
-              </Link>
-              <Link href="/login" className="p-2 hover:bg-purple-100 rounded-lg transition-colors">
-                <LogIn className="w-5 h-5 text-purple-600" />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen bg-background">
+      <Navigation />
 
-      <div className="max-w-4xl mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-16">
+        {/* Header */}
         <div className="text-center mb-12">
-          <div className="flex justify-center mb-4">
-            <div className="relative">
-              <HelpCircle className="w-12 h-12 text-purple-500 animate-float" />
-            </div>
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 text-primary mb-4">
+            <HelpCircle className="h-8 w-8" />
           </div>
-          <h1 className="text-3xl font-bold text-purple-600 mb-4">Cara Menggunakan SchoolVote</h1>
-          <p className="text-base text-gray-600 max-w-2xl mx-auto">
+          <h1 className="text-3xl font-bold text-foreground mb-4">
+            Cara Menggunakan SchoolVote
+          </h1>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Ikuti langkah-langkah sederhana berikut untuk mulai voting sekolah terbaik di Indonesia
           </p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 mb-12">
-          {steps.map((step, index) => (
-            <Card key={index} className={`${step.color} border-3 border-white shadow-lg hover-lift`}>
-              <CardContent className="p-6 bg-white rounded-lg m-2">
-                <div className="flex items-start space-x-4">
-                  <div className={`${step.color} p-3 rounded-lg`}>{step.icon}</div>
-                  <div className="flex-1">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <span className="bg-purple-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                        {index + 1}
-                      </span>
-                      <h3 className="text-lg font-bold text-gray-800">{step.title}</h3>
+        {/* Steps */}
+        <div className="grid md:grid-cols-2 gap-6 mb-12">
+          {steps.map((step, index) => {
+            const IconComponent = step.icon
+            return (
+              <Card key={index} className="card-modern">
+                <CardContent className="p-6">
+                  <div className="flex items-start space-x-4">
+                    <div className={`${step.bg} p-3 rounded-xl flex-shrink-0`}>
+                      <IconComponent className={`w-6 h-6 ${step.color}`} />
                     </div>
-                    <p className="text-sm text-gray-600">{step.description}</p>
+                    <div className="flex-1">
+                      <div className="flex items-center space-x-3 mb-3">
+                        <span className="bg-primary text-primary-foreground text-sm font-bold px-3 py-1 rounded-full">
+                          {index + 1}
+                        </span>
+                        <h3 className="text-lg font-semibold text-foreground">{step.title}</h3>
+                      </div>
+                      <p className="text-muted-foreground leading-relaxed">{step.description}</p>
+                    </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                </CardContent>
+              </Card>
+            )
+          })}
         </div>
 
-        <Card className="bg-gradient-to-r from-purple-100 to-pink-100 border-3 border-white shadow-lg">
-          <CardContent className="p-8 bg-white rounded-lg m-2 text-center">
-            <Trophy className="w-12 h-12 text-yellow-500 mx-auto mb-4 animate-float" />
-            <h3 className="text-xl font-bold text-gray-800 mb-3">Tips Voting</h3>
-            <ul className="text-sm text-gray-600 space-y-2 mb-6 text-left max-w-md mx-auto">
-              <li className="flex items-center space-x-2">
-                <ArrowRight className="w-4 h-4 text-purple-500" />
-                <span>Satu akun dapat memberikan multiple vote</span>
-              </li>
-              <li className="flex items-center space-x-2">
-                <ArrowRight className="w-4 h-4 text-purple-500" />
-                <span>Harga per vote adalah Rp 1.000</span>
-              </li>
-              <li className="flex items-center space-x-2">
-                <ArrowRight className="w-4 h-4 text-purple-500" />
-                <span>Vote dapat diberikan untuk sekolah yang berbeda</span>
-              </li>
-              <li className="flex items-center space-x-2">
-                <ArrowRight className="w-4 h-4 text-purple-500" />
-                <span>Hasil voting dapat dilihat secara real-time</span>
-              </li>
-            </ul>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link href="/register">
-                <Button className="bg-purple-500 hover:bg-purple-600 text-white cartoon-button">Daftar Sekarang</Button>
-              </Link>
-              <Link href="/">
-                <Button variant="outline" className="border-2 border-purple-500 hover:bg-purple-100 bg-white">
+        {/* Tips Section */}
+        <Card className="card-modern">
+          <CardContent className="p-8 text-center">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-yellow-50 text-yellow-600 mb-6">
+              <Trophy className="h-8 w-8" />
+            </div>
+            <h3 className="text-2xl font-bold text-foreground mb-6">Tips & Informasi Penting</h3>
+            <div className="grid md:grid-cols-2 gap-4 mb-8 text-left">
+              {tips.map((tip, index) => (
+                <div key={index} className="flex items-start space-x-3">
+                  <ArrowRight className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                  <span className="text-muted-foreground">{tip}</span>
+                </div>
+              ))}
+            </div>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button size="lg" className="btn-primary" asChild>
+                <Link href="/register">
+                  Daftar Sekarang
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+              <Button size="lg" variant="outline" className="btn-secondary" asChild>
+                <Link href="/">
                   Kembali ke Beranda
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </div>
           </CardContent>
         </Card>

@@ -1,28 +1,23 @@
 "use client"
 
-import type React from "react"
-
-import { useState, useEffect } from "react"
+import { useState } from "react"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Navigation } from "@/components/ui/navigation"
 import {
   Check,
   X,
   Eye,
   EyeOff,
   UserPlus,
-  Home,
-  HelpCircle,
   User,
-  Moon,
-  Sun,
-  BarChart3,
-  Settings,
-  LogIn,
+  Mail,
+  Lock,
+  ArrowRight,
 } from "lucide-react"
-import Link from "next/link"
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -35,8 +30,6 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [showPersonalMenu, setShowPersonalMenu] = useState(false)
-  const [isDarkMode, setIsDarkMode] = useState(false)
 
   // Validation states
   const [validation, setValidation] = useState({
@@ -82,14 +75,6 @@ export default function RegisterPage() {
     setValidation(newValidation)
   }
 
-  useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add("dark")
-    } else {
-      document.documentElement.classList.remove("dark")
-    }
-  }, [isDarkMode])
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
@@ -97,122 +82,68 @@ export default function RegisterPage() {
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 2000))
 
-    // Here you would typically make an API call to register the user
     console.log("Registration data:", formData)
-
     setIsSubmitting(false)
+    
     // Redirect to login or dashboard
+    window.location.href = "/login"
   }
 
   const isFormValid = validation.fullName && validation.email && validation.password && validation.passwordMatch
 
   return (
-    <div className={`min-h-screen transition-colors duration-300 ${isDarkMode ? "dark bg-gray-900" : "bg-white"}`}>
-      <header className="glass-effect sticky top-0 z-50 border-b border-gray-200 dark:border-gray-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-14">
-            <div className="flex items-center space-x-4">
-              <Link href="/" className="p-2 hover:bg-purple-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
-                <Home className="w-5 h-5 text-purple-600 dark:text-purple-400" />
-              </Link>
-              <Link
-                href="/how-to-use"
-                className="p-2 hover:bg-purple-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-              >
-                <HelpCircle className="w-5 h-5 text-purple-600 dark:text-purple-400" />
-              </Link>
-              <button className="p-2 hover:bg-purple-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
-                <BarChart3 className="w-5 h-5 text-purple-600 dark:text-purple-400" />
-              </button>
+    <div className="min-h-screen bg-background">
+      <Navigation />
+      
+      <div className="container mx-auto px-4 py-16">
+        <div className="max-w-md mx-auto">
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 text-primary mb-4">
+              <UserPlus className="h-8 w-8" />
             </div>
-            <div className="relative">
-              <button
-                onClick={() => setShowPersonalMenu(!showPersonalMenu)}
-                className="p-2 hover:bg-purple-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-              >
-                <User className="w-5 h-5 text-purple-600 dark:text-purple-400" />
-              </button>
-
-              {showPersonalMenu && (
-                <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-2">
-                  <Link
-                    href="/login"
-                    className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                  >
-                    <LogIn className="w-4 h-4 mr-2" />
-                    Login / Daftar
-                  </Link>
-                  <button
-                    onClick={() => setIsDarkMode(!isDarkMode)}
-                    className="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                  >
-                    {isDarkMode ? <Sun className="w-4 h-4 mr-2" /> : <Moon className="w-4 h-4 mr-2" />}
-                    {isDarkMode ? "Mode Terang" : "Mode Gelap"}
-                  </button>
-                  <Link
-                    href="/settings"
-                    className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                  >
-                    <Settings className="w-4 h-4 mr-2" />
-                    Pengaturan
-                  </Link>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <div className="flex items-center justify-center p-4 py-8">
-        <div className="w-full max-w-md">
-          <div className="text-center mb-6 animate-bounce-in">
-            <div className="flex items-center justify-center space-x-2 mb-3">
-              <div className="w-8 h-8 bg-purple-500 rounded-xl animate-pulse-glow flex items-center justify-center">
-                <UserPlus className="w-4 h-4 text-white" />
-              </div>
-              <h1 className="text-lg font-bold text-purple-600 dark:text-purple-400">SchoolVote</h1>
-            </div>
-            <p className="text-xs text-gray-600 dark:text-gray-300">Bergabunglah dengan komunitas voting sekolah</p>
+            <h1 className="text-3xl font-bold text-foreground mb-2">Bergabung dengan SchoolVote</h1>
+            <p className="text-muted-foreground">Buat akun untuk mulai voting sekolah terbaik</p>
           </div>
 
-          <Card className="glass-effect shadow-xl border-0 animate-slide-up hover-lift bg-white dark:bg-gray-800">
-            <CardHeader className="space-y-1 text-center pb-4">
-              <CardTitle className="text-lg font-bold text-purple-600 dark:text-purple-400">Daftar Akun Baru</CardTitle>
-              <CardDescription className="text-center text-gray-600 dark:text-gray-300 text-xs">
+          <Card className="card-modern">
+            <CardHeader className="text-center pb-4">
+              <CardTitle className="text-xl">Daftar Akun Baru</CardTitle>
+              <CardDescription>
                 Masukkan informasi Anda untuk membuat akun
               </CardDescription>
             </CardHeader>
-            <CardContent className="px-6 pb-6">
+            <CardContent className="space-y-6">
               <form onSubmit={handleSubmit} className="space-y-4">
                 {/* Full Name Field */}
-                <div className="space-y-1">
-                  <Label htmlFor="fullName" className="text-gray-700 dark:text-gray-300 font-semibold text-xs">
+                <div className="space-y-2">
+                  <Label htmlFor="fullName" className="text-sm font-medium">
                     Nama Lengkap *
                   </Label>
                   <div className="relative">
+                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input
                       id="fullName"
                       type="text"
                       placeholder="Masukkan nama lengkap Anda"
                       value={formData.fullName}
                       onChange={(e) => handleInputChange("fullName", e.target.value)}
-                      className={`pr-10 h-9 text-xs transition-all duration-300 dark:bg-gray-700 dark:border-gray-600 ${
+                      className={`form-input pl-10 pr-10 ${
                         formData.fullName.length > 0
                           ? validation.fullName
-                            ? "border-green-400 focus:border-green-500 bg-green-50 dark:bg-green-900/20"
-                            : "border-red-400 focus:border-red-500 bg-red-50 dark:bg-red-900/20"
-                          : "border-gray-300 dark:border-gray-600 hover:border-purple-400"
+                            ? "border-success focus:ring-success"
+                            : "border-destructive focus:ring-destructive"
+                          : ""
                       }`}
                       required
                     />
                     {formData.fullName.length > 0 && (
                       <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
                         {validation.fullName ? (
-                          <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center animate-bounce-in">
+                          <div className="w-5 h-5 bg-success rounded-full flex items-center justify-center">
                             <Check className="w-3 h-3 text-white" />
                           </div>
                         ) : (
-                          <div className="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center animate-bounce-in">
+                          <div className="w-5 h-5 bg-destructive rounded-full flex items-center justify-center">
                             <X className="w-3 h-3 text-white" />
                           </div>
                         )}
@@ -220,41 +151,42 @@ export default function RegisterPage() {
                     )}
                   </div>
                   {formData.fullName.length > 0 && !validation.fullName && (
-                    <p className="text-xs text-red-600 dark:text-red-400 animate-slide-up">
+                    <p className="text-xs text-destructive">
                       Nama lengkap minimal 2 karakter
                     </p>
                   )}
                 </div>
 
                 {/* Email Field */}
-                <div className="space-y-1">
-                  <Label htmlFor="email" className="text-gray-700 dark:text-gray-300 font-semibold text-xs">
+                <div className="space-y-2">
+                  <Label htmlFor="email" className="text-sm font-medium">
                     Email *
                   </Label>
                   <div className="relative">
+                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input
                       id="email"
                       type="email"
                       placeholder="nama@email.com"
                       value={formData.email}
                       onChange={(e) => handleInputChange("email", e.target.value)}
-                      className={`pr-10 h-9 text-xs transition-all duration-300 dark:bg-gray-700 dark:border-gray-600 ${
+                      className={`form-input pl-10 pr-10 ${
                         formData.email.length > 0
                           ? validation.email
-                            ? "border-green-400 focus:border-green-500 bg-green-50 dark:bg-green-900/20"
-                            : "border-red-400 focus:border-red-500 bg-red-50 dark:bg-red-900/20"
-                          : "border-gray-300 dark:border-gray-600 hover:border-purple-400"
+                            ? "border-success focus:ring-success"
+                            : "border-destructive focus:ring-destructive"
+                          : ""
                       }`}
                       required
                     />
                     {formData.email.length > 0 && (
                       <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
                         {validation.email ? (
-                          <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center animate-bounce-in">
+                          <div className="w-5 h-5 bg-success rounded-full flex items-center justify-center">
                             <Check className="w-3 h-3 text-white" />
                           </div>
                         ) : (
-                          <div className="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center animate-bounce-in">
+                          <div className="w-5 h-5 bg-destructive rounded-full flex items-center justify-center">
                             <X className="w-3 h-3 text-white" />
                           </div>
                         )}
@@ -262,129 +194,166 @@ export default function RegisterPage() {
                     )}
                   </div>
                   {formData.email.length > 0 && !validation.email && (
-                    <p className="text-xs text-red-600 dark:text-red-400 animate-slide-up">Format email tidak valid</p>
+                    <p className="text-xs text-destructive">Format email tidak valid</p>
                   )}
                 </div>
 
                 {/* Password Field */}
-                <div className="space-y-1">
-                  <Label htmlFor="password" className="text-gray-700 dark:text-gray-300 font-semibold text-xs">
+                <div className="space-y-2">
+                  <Label htmlFor="password" className="text-sm font-medium">
                     Password *
                   </Label>
                   <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input
                       id="password"
                       type={showPassword ? "text" : "password"}
                       placeholder="Minimal 6 karakter"
                       value={formData.password}
                       onChange={(e) => handleInputChange("password", e.target.value)}
-                      className={`pr-16 h-9 text-xs transition-all duration-300 dark:bg-gray-700 dark:border-gray-600 ${
+                      className={`form-input pl-10 pr-16 ${
                         formData.password.length > 0
                           ? validation.password
-                            ? "border-green-400 focus:border-green-500 bg-green-50 dark:bg-green-900/20"
-                            : "border-red-400 focus:border-red-500 bg-red-50 dark:bg-red-900/20"
-                          : "border-gray-300 dark:border-gray-600 hover:border-purple-400"
+                            ? "border-success focus:ring-success"
+                            : "border-destructive focus:ring-destructive"
+                          : ""
                       }`}
                       required
                     />
                     <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center space-x-1">
                       {formData.password.length > 0 &&
                         (validation.password ? (
-                          <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center animate-bounce-in">
+                          <div className="w-5 h-5 bg-success rounded-full flex items-center justify-center">
                             <Check className="w-3 h-3 text-white" />
                           </div>
                         ) : (
-                          <div className="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center animate-bounce-in">
+                          <div className="w-5 h-5 bg-destructive rounded-full flex items-center justify-center">
                             <X className="w-3 h-3 text-white" />
                           </div>
                         ))}
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="text-gray-500 hover:text-purple-600 transition-colors p-1"
+                        className="text-muted-foreground hover:text-foreground transition-colors p-1"
                       >
                         {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                       </button>
                     </div>
                   </div>
                   {formData.password.length > 0 && !validation.password && (
-                    <p className="text-xs text-red-600 dark:text-red-400 animate-slide-up">
+                    <p className="text-xs text-destructive">
                       Password minimal 6 karakter
                     </p>
                   )}
                 </div>
 
                 {/* Confirm Password Field */}
-                <div className="space-y-1">
-                  <Label htmlFor="confirmPassword" className="text-gray-700 dark:text-gray-300 font-semibold text-xs">
+                <div className="space-y-2">
+                  <Label htmlFor="confirmPassword" className="text-sm font-medium">
                     Konfirmasi Password *
                   </Label>
                   <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input
                       id="confirmPassword"
                       type={showConfirmPassword ? "text" : "password"}
                       placeholder="Ulangi password Anda"
                       value={formData.confirmPassword}
                       onChange={(e) => handleInputChange("confirmPassword", e.target.value)}
-                      className={`pr-16 h-9 text-xs transition-all duration-300 dark:bg-gray-700 dark:border-gray-600 ${
+                      className={`form-input pl-10 pr-16 ${
                         formData.confirmPassword.length > 0
                           ? validation.passwordMatch
-                            ? "border-green-400 focus:border-green-500 bg-green-50 dark:bg-green-900/20"
-                            : "border-red-400 focus:border-red-500 bg-red-50 dark:bg-red-900/20"
-                          : "border-gray-300 dark:border-gray-600 hover:border-purple-400"
+                            ? "border-success focus:ring-success"
+                            : "border-destructive focus:ring-destructive"
+                          : ""
                       }`}
                       required
                     />
                     <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center space-x-1">
                       {formData.confirmPassword.length > 0 &&
                         (validation.passwordMatch ? (
-                          <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center animate-bounce-in">
+                          <div className="w-5 h-5 bg-success rounded-full flex items-center justify-center">
                             <Check className="w-3 h-3 text-white" />
                           </div>
                         ) : (
-                          <div className="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center animate-bounce-in">
+                          <div className="w-5 h-5 bg-destructive rounded-full flex items-center justify-center">
                             <X className="w-3 h-3 text-white" />
                           </div>
                         ))}
                       <button
                         type="button"
                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                        className="text-gray-500 hover:text-purple-600 transition-colors p-1"
+                        className="text-muted-foreground hover:text-foreground transition-colors p-1"
                       >
                         {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                       </button>
                     </div>
                   </div>
                   {formData.confirmPassword.length > 0 && !validation.passwordMatch && (
-                    <p className="text-xs text-red-600 dark:text-red-400 animate-slide-up">Password tidak cocok</p>
+                    <p className="text-xs text-destructive">Password tidak cocok</p>
                   )}
                 </div>
 
                 <Button
                   type="submit"
-                  className="w-full bg-purple-500 hover:bg-purple-600 text-white py-2 text-xs font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cartoon-button"
+                  className="w-full btn-primary"
                   disabled={!isFormValid || isSubmitting}
                 >
                   {isSubmitting ? (
                     <div className="flex items-center space-x-2">
-                      <div className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                       <span>Mendaftar...</span>
                     </div>
                   ) : (
                     <div className="flex items-center space-x-2">
-                      <UserPlus className="w-3 h-3" />
                       <span>Daftar Sekarang</span>
+                      <ArrowRight className="h-4 w-4" />
                     </div>
                   )}
                 </Button>
               </form>
 
-              <div className="mt-6 text-center">
-                <p className="text-gray-600 dark:text-gray-300 text-xs">
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-border" />
+                </div>
+                <div className="relative flex justify-center text-sm">
+                  <span className="px-4 bg-card text-muted-foreground">atau</span>
+                </div>
+              </div>
+
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full btn-secondary"
+              >
+                <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24">
+                  <path
+                    fill="currentColor"
+                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                  />
+                  <path
+                    fill="currentColor"
+                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                  />
+                  <path
+                    fill="currentColor"
+                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                  />
+                  <path
+                    fill="currentColor"
+                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                  />
+                </svg>
+                Daftar dengan Google
+              </Button>
+
+              <div className="text-center">
+                <p className="text-sm text-muted-foreground">
                   Sudah punya akun?{" "}
                   <Link
                     href="/login"
-                    className="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-semibold transition-colors hover:scale-105 inline-block"
+                    className="text-primary hover:text-primary/80 font-medium transition-colors"
                   >
                     Login di sini
                   </Link>
@@ -393,22 +362,16 @@ export default function RegisterPage() {
             </CardContent>
           </Card>
 
-          <div className="mt-6 text-center text-gray-500 dark:text-gray-400 animate-slide-up">
-            <p className="text-xs">
+          <div className="mt-8 text-center text-xs text-muted-foreground">
+            <p>
               Dengan mendaftar, Anda menyetujui{" "}
-              <a
-                href="#"
-                className="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-medium transition-colors"
-              >
+              <Link href="/terms" className="text-primary hover:text-primary/80 transition-colors">
                 Syarat & Ketentuan
-              </a>{" "}
+              </Link>{" "}
               dan{" "}
-              <a
-                href="#"
-                className="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-medium transition-colors"
-              >
+              <Link href="/privacy" className="text-primary hover:text-primary/80 transition-colors">
                 Kebijakan Privasi
-              </a>
+              </Link>
             </p>
           </div>
         </div>

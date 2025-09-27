@@ -1,26 +1,22 @@
 "use client"
 
-import type React from "react"
-
-import { useState, useEffect } from "react"
+import { useState } from "react"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Eye, EyeOff, Mail, Lock, LogIn, Home, HelpCircle, User, Moon, Sun, BarChart3, Settings } from "lucide-react"
-import Link from "next/link"
+import { Navigation } from "@/components/ui/navigation"
+import { Eye, EyeOff, Mail, Lock, LogIn, ArrowRight } from "lucide-react"
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   })
-
   const [showPassword, setShowPassword] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [rememberMe, setRememberMe] = useState(false)
-  const [showPersonalMenu, setShowPersonalMenu] = useState(false)
-  const [isDarkMode, setIsDarkMode] = useState(false)
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }))
@@ -33,141 +29,77 @@ export default function LoginPage() {
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 2000))
 
-    // Here you would typically make an API call to authenticate the user
     console.log("Login data:", formData)
-
     setIsSubmitting(false)
+    
     // Redirect to dashboard
     window.location.href = "/dashboard"
   }
 
-  useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add("dark")
-    } else {
-      document.documentElement.classList.remove("dark")
-    }
-  }, [isDarkMode])
-
   const isFormValid = formData.email.length > 0 && formData.password.length > 0
 
   return (
-    <div className={`min-h-screen transition-colors duration-300 ${isDarkMode ? "dark bg-gray-900" : "bg-white"}`}>
-      <header className="glass-effect sticky top-0 z-50 border-b border-gray-200 dark:border-gray-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-14">
-            <div className="flex items-center space-x-4">
-              <Link href="/" className="p-2 hover:bg-purple-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
-                <Home className="w-5 h-5 text-purple-600 dark:text-purple-400" />
-              </Link>
-              <Link
-                href="/how-to-use"
-                className="p-2 hover:bg-purple-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-              >
-                <HelpCircle className="w-5 h-5 text-purple-600 dark:text-purple-400" />
-              </Link>
-              <button className="p-2 hover:bg-purple-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
-                <BarChart3 className="w-5 h-5 text-purple-600 dark:text-purple-400" />
-              </button>
+    <div className="min-h-screen bg-background">
+      <Navigation />
+      
+      <div className="container mx-auto px-4 py-16">
+        <div className="max-w-md mx-auto">
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 text-primary mb-4">
+              <LogIn className="h-8 w-8" />
             </div>
-            <div className="relative">
-              <button
-                onClick={() => setShowPersonalMenu(!showPersonalMenu)}
-                className="p-2 bg-purple-100 dark:bg-gray-700 rounded-lg"
-              >
-                <User className="w-5 h-5 text-purple-600 dark:text-purple-400" />
-              </button>
-
-              {showPersonalMenu && (
-                <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-2">
-                  <Link
-                    href="/login"
-                    className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                  >
-                    <LogIn className="w-4 h-4 mr-2" />
-                    Login / Daftar
-                  </Link>
-                  <button
-                    onClick={() => setIsDarkMode(!isDarkMode)}
-                    className="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                  >
-                    {isDarkMode ? <Sun className="w-4 h-4 mr-2" /> : <Moon className="w-4 h-4 mr-2" />}
-                    {isDarkMode ? "Mode Terang" : "Mode Gelap"}
-                  </button>
-                  <Link
-                    href="/settings"
-                    className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                  >
-                    <Settings className="w-4 h-4 mr-2" />
-                    Pengaturan
-                  </Link>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <div className="flex items-center justify-center p-4 py-8">
-        <div className="w-full max-w-md">
-          <div className="text-center mb-6 animate-bounce-in">
-            <div className="flex items-center justify-center space-x-2 mb-3">
-              <div className="w-8 h-8 bg-blue-500 rounded-xl animate-pulse-glow flex items-center justify-center">
-                <LogIn className="w-4 h-4 text-white" />
-              </div>
-              <h1 className="text-lg font-bold text-blue-600 dark:text-blue-400">SchoolVote</h1>
-            </div>
-            <p className="text-xs text-gray-600 dark:text-gray-300">Masuk ke akun Anda</p>
+            <h1 className="text-3xl font-bold text-foreground mb-2">Selamat Datang Kembali</h1>
+            <p className="text-muted-foreground">Masuk ke akun SchoolVote Anda</p>
           </div>
 
-          <Card className="glass-effect shadow-xl border-0 animate-slide-up hover-lift bg-white dark:bg-gray-800">
-            <CardHeader className="space-y-1 text-center pb-4">
-              <CardTitle className="text-lg font-bold text-blue-600 dark:text-blue-400">Masuk</CardTitle>
-              <CardDescription className="text-center text-gray-600 dark:text-gray-300 text-xs">
+          <Card className="card-modern">
+            <CardHeader className="text-center pb-4">
+              <CardTitle className="text-xl">Masuk</CardTitle>
+              <CardDescription>
                 Masukkan email dan password untuk mengakses akun Anda
               </CardDescription>
             </CardHeader>
-            <CardContent className="px-6 pb-6">
+            <CardContent className="space-y-6">
               <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="space-y-1">
-                  <Label htmlFor="email" className="text-gray-700 dark:text-gray-300 font-semibold text-xs">
+                <div className="space-y-2">
+                  <Label htmlFor="email" className="text-sm font-medium">
                     Email
                   </Label>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-3 h-3 text-blue-500" />
+                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input
                       id="email"
                       type="email"
                       placeholder="nama@email.com"
                       value={formData.email}
                       onChange={(e) => handleInputChange("email", e.target.value)}
-                      className="pl-9 h-9 text-xs border-gray-300 dark:border-gray-600 dark:bg-gray-700 hover:border-blue-400 focus:border-blue-500 transition-all duration-300"
+                      className="form-input pl-10"
                       required
                     />
                   </div>
                 </div>
 
-                <div className="space-y-1">
-                  <Label htmlFor="password" className="text-gray-700 dark:text-gray-300 font-semibold text-xs">
+                <div className="space-y-2">
+                  <Label htmlFor="password" className="text-sm font-medium">
                     Password
                   </Label>
                   <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-3 h-3 text-blue-500" />
+                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input
                       id="password"
                       type={showPassword ? "text" : "password"}
                       placeholder="Masukkan password Anda"
                       value={formData.password}
                       onChange={(e) => handleInputChange("password", e.target.value)}
-                      className="pl-9 pr-9 h-9 text-xs border-gray-300 dark:border-gray-600 dark:bg-gray-700 hover:border-blue-400 focus:border-blue-500 transition-all duration-300"
+                      className="form-input pl-10 pr-10"
                       required
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-blue-600 transition-colors"
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                     >
-                      {showPassword ? <EyeOff className="w-3 h-3" /> : <Eye className="w-3 h-3" />}
+                      {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                     </button>
                   </div>
                 </div>
@@ -179,15 +111,15 @@ export default function LoginPage() {
                       type="checkbox"
                       checked={rememberMe}
                       onChange={(e) => setRememberMe(e.target.checked)}
-                      className="w-3 h-3 text-blue-600 bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 rounded focus:ring-blue-500 focus:ring-2"
+                      className="h-4 w-4 text-primary focus:ring-primary border-border rounded"
                     />
-                    <Label htmlFor="remember" className="text-gray-600 dark:text-gray-300 cursor-pointer text-xs">
+                    <Label htmlFor="remember" className="text-sm text-muted-foreground cursor-pointer">
                       Ingat saya
                     </Label>
                   </div>
                   <Link
                     href="/forgot-password"
-                    className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-semibold transition-colors text-xs"
+                    className="text-sm text-primary hover:text-primary/80 transition-colors"
                   >
                     Lupa Password?
                   </Link>
@@ -195,53 +127,64 @@ export default function LoginPage() {
 
                 <Button
                   type="submit"
-                  className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 text-xs font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cartoon-button"
+                  className="w-full btn-primary"
                   disabled={!isFormValid || isSubmitting}
                 >
                   {isSubmitting ? (
                     <div className="flex items-center space-x-2">
-                      <div className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                       <span>Masuk...</span>
                     </div>
                   ) : (
                     <div className="flex items-center space-x-2">
-                      <LogIn className="w-3 h-3" />
                       <span>Masuk</span>
+                      <ArrowRight className="h-4 w-4" />
                     </div>
                   )}
                 </Button>
               </form>
 
-              <div className="mt-6 mb-6">
-                <div className="relative">
-                  <div className="absolute inset-0 flex items-center">
-                    <div className="w-full border-t border-gray-300 dark:border-gray-600" />
-                  </div>
-                  <div className="relative flex justify-center text-xs">
-                    <span className="px-3 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">atau</span>
-                  </div>
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-border" />
+                </div>
+                <div className="relative flex justify-center text-sm">
+                  <span className="px-4 bg-card text-muted-foreground">atau</span>
                 </div>
               </div>
 
-              <div className="space-y-3">
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="w-full h-9 text-gray-700 dark:text-gray-300 border-2 border-gray-300 dark:border-gray-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:border-blue-400 bg-white dark:bg-gray-800 transition-all duration-300 hover:scale-105 text-xs"
-                >
-                  <svg className="w-3 h-3 mr-2" viewBox="0 0 24 24">
-                    {/* ... existing Google icon paths ... */}
-                  </svg>
-                  Masuk dengan Google
-                </Button>
-              </div>
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full btn-secondary"
+              >
+                <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24">
+                  <path
+                    fill="currentColor"
+                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                  />
+                  <path
+                    fill="currentColor"
+                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                  />
+                  <path
+                    fill="currentColor"
+                    d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                  />
+                  <path
+                    fill="currentColor"
+                    d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                  />
+                </svg>
+                Masuk dengan Google
+              </Button>
 
-              <div className="mt-6 text-center">
-                <p className="text-gray-600 dark:text-gray-300 text-xs">
+              <div className="text-center">
+                <p className="text-sm text-muted-foreground">
                   Belum punya akun?{" "}
                   <Link
                     href="/register"
-                    className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-semibold transition-colors hover:scale-105 inline-block"
+                    className="text-primary hover:text-primary/80 font-medium transition-colors"
                   >
                     Daftar sekarang
                   </Link>
@@ -250,22 +193,16 @@ export default function LoginPage() {
             </CardContent>
           </Card>
 
-          <div className="mt-6 text-center text-gray-500 dark:text-gray-400 animate-slide-up">
-            <p className="text-xs">
+          <div className="mt-8 text-center text-xs text-muted-foreground">
+            <p>
               Dengan masuk, Anda menyetujui{" "}
-              <a
-                href="#"
-                className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors"
-              >
+              <Link href="/terms" className="text-primary hover:text-primary/80 transition-colors">
                 Syarat & Ketentuan
-              </a>{" "}
+              </Link>{" "}
               dan{" "}
-              <a
-                href="#"
-                className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors"
-              >
+              <Link href="/privacy" className="text-primary hover:text-primary/80 transition-colors">
                 Kebijakan Privasi
-              </a>
+              </Link>
             </p>
           </div>
         </div>

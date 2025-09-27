@@ -4,23 +4,21 @@ import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Navigation } from "@/components/ui/navigation"
 import {
   Star,
   Users,
   MapPin,
-  LogOut,
-  CreditCard,
   Plus,
   Minus,
   ShoppingCart,
-  Settings,
   Trophy,
-  Sparkles,
   Heart,
   Zap,
+  CreditCard,
+  TrendingUp,
+  Award,
 } from "lucide-react"
-import Link from "next/link"
 
 const schools = [
   {
@@ -29,10 +27,9 @@ const schools = [
     location: "Jakarta Pusat",
     votes: 2847,
     rating: 4.9,
-    image: "/placeholder.svg?key=ocoha",
+    image: "https://images.pexels.com/photos/207692/pexels-photo-207692.jpeg?auto=compress&cs=tinysrgb&w=400",
     rank: 1,
     price: 5000,
-    color: "from-purple-500 to-pink-500",
   },
   {
     id: 2,
@@ -40,10 +37,9 @@ const schools = [
     location: "Bandung",
     votes: 2634,
     rating: 4.8,
-    image: "/placeholder.svg?key=hbkv2",
+    image: "https://images.pexels.com/photos/1454360/pexels-photo-1454360.jpeg?auto=compress&cs=tinysrgb&w=400",
     rank: 2,
     price: 5000,
-    color: "from-blue-500 to-cyan-500",
   },
   {
     id: 3,
@@ -51,10 +47,9 @@ const schools = [
     location: "Surabaya",
     votes: 2521,
     rating: 4.7,
-    image: "/placeholder.svg?key=ry3ut",
+    image: "https://images.pexels.com/photos/159844/pexels-photo-159844.jpeg?auto=compress&cs=tinysrgb&w=400",
     rank: 3,
     price: 5000,
-    color: "from-green-500 to-emerald-500",
   },
   {
     id: 4,
@@ -62,10 +57,9 @@ const schools = [
     location: "Yogyakarta",
     votes: 2398,
     rating: 4.6,
-    image: "/placeholder.svg?key=ry3ut",
+    image: "https://images.pexels.com/photos/289737/pexels-photo-289737.jpeg?auto=compress&cs=tinysrgb&w=400",
     rank: 4,
     price: 5000,
-    color: "from-orange-500 to-red-500",
   },
   {
     id: 5,
@@ -73,36 +67,28 @@ const schools = [
     location: "Medan",
     votes: 2287,
     rating: 4.5,
-    image: "/placeholder.svg?key=ry3ut",
+    image: "https://images.pexels.com/photos/1454360/pexels-photo-1454360.jpeg?auto=compress&cs=tinysrgb&w=400",
     rank: 5,
     price: 5000,
-    color: "from-indigo-500 to-purple-500",
   },
-  {
-    id: 6,
-    name: "SMA Negeri 4 Semarang",
-    location: "Semarang",
-    votes: 2156,
-    rating: 4.4,
-    image: "/placeholder.svg?key=ry3ut",
-    rank: 6,
-    price: 5000,
-    color: "from-pink-500 to-rose-500",
-  },
+]
+
+const userStats = [
+  { label: "Total Suara Anda", value: 24, icon: Trophy, color: "text-yellow-600", bg: "bg-yellow-50" },
+  { label: "Total Pengeluaran", value: "Rp 120.000", icon: CreditCard, color: "text-green-600", bg: "bg-green-50" },
+  { label: "Sekolah Dipilih", value: 8, icon: Users, color: "text-blue-600", bg: "bg-blue-50" },
+  { label: "Ranking Anda", value: "#47", icon: Award, color: "text-purple-600", bg: "bg-purple-50" },
 ]
 
 export default function DashboardPage() {
   const [selectedVotes, setSelectedVotes] = useState<Record<number, number>>({})
   const [isProcessingPayment, setIsProcessingPayment] = useState(false)
-  const [showTrophyAnimation, setShowTrophyAnimation] = useState(true)
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowTrophyAnimation(false)
-    }, 2500) // Extended duration to allow trophy to settle
-
-    return () => clearTimeout(timer)
-  }, [])
+  const user = {
+    name: "John Doe",
+    email: "john@example.com",
+    avatar: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=100",
+  }
 
   const handleVoteChange = (schoolId: number, change: number) => {
     setSelectedVotes((prev) => {
@@ -134,7 +120,6 @@ export default function DashboardPage() {
     // Simulate payment processing
     await new Promise((resolve) => setTimeout(resolve, 3000))
 
-    // Here you would integrate with payment gateway
     console.log("Processing payment for votes:", selectedVotes)
     console.log("Total amount:", getTotalPrice())
 
@@ -142,246 +127,149 @@ export default function DashboardPage() {
     setSelectedVotes({})
     setIsProcessingPayment(false)
 
-    // Show success message or redirect
+    // Show success message
     alert("Pembayaran berhasil! Suara Anda telah dihitung.")
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900">
-      {showTrophyAnimation && (
-        <div className="fixed inset-0 z-50 pointer-events-none">
-          <div className="absolute left-1/2 transform -translate-x-1/2">
-            <Trophy
-              className="w-16 h-16 text-yellow-500"
-              style={{
-                animation: "fallDownFromTop 2.5s ease-out forwards",
-              }}
-            />
-          </div>
-        </div>
-      )}
+    <div className="min-h-screen bg-background">
+      <Navigation user={user} />
 
-      <header className="bg-white dark:bg-gray-900 sticky top-0 z-40 border-b border-gray-200 dark:border-gray-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-8">
-              <Link href="/" className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-purple-500 rounded-lg"></div>
-                <h1 className="text-2xl font-bold text-purple-600 dark:text-purple-400">SchoolVote</h1>
-              </Link>
-              <nav className="hidden md:flex space-x-6">
-                <a href="#" className="text-primary font-semibold flex items-center space-x-1">
-                  <Sparkles className="w-4 h-4" />
-                  <span>Dashboard</span>
-                </a>
-                <a
-                  href="#"
-                  className="text-foreground/70 hover:text-primary transition-all duration-300 hover:scale-105"
-                >
-                  Riwayat Vote
-                </a>
-                <a
-                  href="#"
-                  className="text-foreground/70 hover:text-primary transition-all duration-300 hover:scale-105"
-                >
-                  Leaderboard
-                </a>
-              </nav>
-            </div>
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-3">
-                <Avatar className="w-10 h-10 ring-2 ring-primary/20">
-                  <AvatarImage src="/placeholder.svg" />
-                  <AvatarFallback className="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold">
-                    JD
-                  </AvatarFallback>
-                </Avatar>
-                <span className="hidden md:block text-foreground font-semibold">John Doe</span>
-              </div>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="text-foreground/70 hover:text-primary hover:bg-primary/10 transition-all duration-300"
-              >
-                <Settings className="w-5 h-5" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="text-foreground/70 hover:text-primary hover:bg-primary/10 transition-all duration-300"
-              >
-                <LogOut className="w-5 h-5" />
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-12 text-center relative">
-          <h2 className="text-4xl md:text-5xl font-bold text-purple-600 dark:text-purple-400 mb-4 animate-slide-up">
-            Pilih Sekolah Terbaik Indonesia
-          </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300 animate-slide-up" style={{ animationDelay: "0.2s" }}>
-            Yukk Vote
+      <div className="container mx-auto px-4 py-8">
+        {/* Welcome Section */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-foreground mb-2">
+            Selamat Datang, {user.name}! 👋
+          </h1>
+          <p className="text-muted-foreground">
+            Kelola voting Anda dan lihat statistik terbaru di dashboard ini
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          <Card className="hover-lift animate-slide-up bg-gradient-to-r from-yellow-500 to-orange-500 p-1 rounded-xl shadow-xl">
-            <CardContent className="p-6 bg-card rounded-lg">
-              <div className="flex items-center">
-                <div className="w-12 h-12 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full flex items-center justify-center mr-4">
-                  <Trophy className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-foreground/70 uppercase tracking-wide">Total Suara Anda</p>
-                  <p className="text-3xl font-bold text-foreground">24</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          <Card
-            className="hover-lift animate-slide-up bg-gradient-to-r from-green-500 to-emerald-500 p-1 rounded-xl shadow-xl"
-            style={{ animationDelay: "0.1s" }}
-          >
-            <CardContent className="p-6 bg-card rounded-lg">
-              <div className="flex items-center">
-                <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mr-4">
-                  <CreditCard className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-foreground/70 uppercase tracking-wide">Total Pengeluaran</p>
-                  <p className="text-3xl font-bold text-foreground">Rp 120.000</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          <Card
-            className="hover-lift animate-slide-up bg-gradient-to-r from-blue-500 to-cyan-500 p-1 rounded-xl shadow-xl"
-            style={{ animationDelay: "0.2s" }}
-          >
-            <CardContent className="p-6 bg-card rounded-lg">
-              <div className="flex items-center">
-                <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mr-4">
-                  <Users className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-foreground/70 uppercase tracking-wide">Sekolah Dipilih</p>
-                  <p className="text-3xl font-bold text-foreground">8</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+        {/* Stats Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          {userStats.map((stat, index) => {
+            const IconComponent = stat.icon
+            return (
+              <Card key={index} className="card-modern">
+                <CardContent className="p-4">
+                  <div className="flex items-center">
+                    <div className={`w-12 h-12 ${stat.bg} rounded-xl flex items-center justify-center mr-4`}>
+                      <IconComponent className={`w-6 h-6 ${stat.color}`} />
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-muted-foreground">{stat.label}</p>
+                      <p className="text-2xl font-bold text-foreground">{stat.value}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            )
+          })}
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid lg:grid-cols-3 gap-8">
+          {/* Schools List */}
           <div className="lg:col-span-2">
-            <Card className="glass-effect shadow-2xl border-0 animate-slide-up">
+            <Card className="card-modern">
               <CardHeader>
-                <CardTitle className="text-2xl font-bold gradient-text flex items-center">
-                  <Zap className="w-6 h-6 mr-2" />
+                <CardTitle className="flex items-center">
+                  <Zap className="w-5 h-5 mr-2 text-primary" />
                   Daftar Sekolah
                 </CardTitle>
               </CardHeader>
-              <CardContent className="p-0">
-                <div className="space-y-6 p-6">
-                  {schools.map((school, index) => (
-                    <div
-                      key={school.id}
-                      className={`bg-gradient-to-r ${school.color} p-1 rounded-xl hover-lift animate-bounce-in shadow-lg`}
-                      style={{ animationDelay: `${index * 0.1}s` }}
-                    >
-                      <div className="bg-card rounded-lg p-6">
-                        <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
-                          <div className="flex items-center space-x-4">
-                            <div className="relative">
-                              <img
-                                src={school.image || "/placeholder.svg"}
-                                alt={school.name}
-                                className="w-20 h-20 rounded-xl object-cover"
-                              />
-                              <Badge
-                                className={`absolute -top-2 -right-2 bg-gradient-to-r ${school.color} text-white border-0 text-sm px-3 py-1 animate-pulse-glow`}
-                              >
-                                #{school.rank}
-                              </Badge>
-                            </div>
-                            <div>
-                              <h3 className="font-bold text-foreground text-xl mb-2">{school.name}</h3>
-                              <div className="flex items-center text-foreground/70 mb-2">
-                                <MapPin className="w-4 h-4 mr-2 text-primary" />
-                                <span>{school.location}</span>
-                              </div>
-                              <div className="flex items-center space-x-4">
-                                <div className="flex items-center bg-yellow-100 rounded-full px-3 py-1">
-                                  <Star className="w-4 h-4 text-yellow-500 mr-1" />
-                                  <span className="font-bold text-yellow-700">{school.rating}</span>
-                                </div>
-                                <div className="flex items-center bg-blue-100 rounded-full px-3 py-1">
-                                  <Users className="w-4 h-4 text-blue-500 mr-1" />
-                                  <span className="font-bold text-blue-700">{school.votes.toLocaleString()}</span>
-                                </div>
-                              </div>
-                            </div>
+              <CardContent className="space-y-4">
+                {schools.map((school) => (
+                  <div
+                    key={school.id}
+                    className="border border-border rounded-xl p-4 hover:shadow-md transition-all duration-200"
+                  >
+                    <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
+                      <div className="flex items-center space-x-4">
+                        <div className="relative">
+                          <img
+                            src={school.image}
+                            alt={school.name}
+                            className="w-16 h-16 rounded-xl object-cover"
+                          />
+                          <Badge className="absolute -top-2 -right-2 bg-primary text-primary-foreground text-xs px-2 py-1">
+                            #{school.rank}
+                          </Badge>
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-foreground mb-1">{school.name}</h3>
+                          <div className="flex items-center text-muted-foreground mb-2">
+                            <MapPin className="w-4 h-4 mr-1" />
+                            <span className="text-sm">{school.location}</span>
                           </div>
-
-                          <div className="flex items-center space-x-4">
-                            <div className="text-right">
-                              <p className="text-sm text-foreground/70 font-medium">Harga per suara</p>
-                              <p className="font-bold text-foreground text-lg">Rp {school.price.toLocaleString()}</p>
+                          <div className="flex items-center space-x-3">
+                            <div className="flex items-center bg-yellow-50 rounded-full px-2 py-1">
+                              <Star className="w-3 h-3 text-yellow-500 mr-1 fill-current" />
+                              <span className="text-xs font-medium text-yellow-700">{school.rating}</span>
                             </div>
-                            <div className="flex items-center space-x-2 bg-muted rounded-xl p-2">
-                              <Button
-                                size="sm"
-                                variant="ghost"
-                                onClick={() => handleVoteChange(school.id, -1)}
-                                disabled={!selectedVotes[school.id]}
-                                className="w-10 h-10 p-0 hover:bg-red-100 hover:text-red-600 transition-all duration-300"
-                              >
-                                <Minus className="w-5 h-5" />
-                              </Button>
-                              <span className="w-12 text-center font-bold text-lg">
-                                {selectedVotes[school.id] || 0}
-                              </span>
-                              <Button
-                                size="sm"
-                                variant="ghost"
-                                onClick={() => handleVoteChange(school.id, 1)}
-                                className="w-10 h-10 p-0 hover:bg-green-100 hover:text-green-600 transition-all duration-300"
-                              >
-                                <Plus className="w-5 h-5" />
-                              </Button>
+                            <div className="flex items-center bg-blue-50 rounded-full px-2 py-1">
+                              <Users className="w-3 h-3 text-blue-500 mr-1" />
+                              <span className="text-xs font-medium text-blue-700">{school.votes.toLocaleString()}</span>
                             </div>
                           </div>
                         </div>
                       </div>
+
+                      <div className="flex items-center space-x-4">
+                        <div className="text-right">
+                          <p className="text-sm text-muted-foreground">Harga per suara</p>
+                          <p className="font-semibold text-foreground">Rp {school.price.toLocaleString()}</p>
+                        </div>
+                        <div className="flex items-center space-x-2 bg-muted rounded-xl p-2">
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => handleVoteChange(school.id, -1)}
+                            disabled={!selectedVotes[school.id]}
+                            className="w-8 h-8 p-0 hover:bg-red-100 hover:text-red-600"
+                          >
+                            <Minus className="w-4 h-4" />
+                          </Button>
+                          <span className="w-8 text-center font-medium">
+                            {selectedVotes[school.id] || 0}
+                          </span>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => handleVoteChange(school.id, 1)}
+                            className="w-8 h-8 p-0 hover:bg-green-100 hover:text-green-600"
+                          >
+                            <Plus className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </div>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
               </CardContent>
             </Card>
           </div>
 
+          {/* Voting Summary */}
           <div className="lg:col-span-1">
-            <Card className="sticky top-24 glass-effect shadow-2xl border-0 animate-slide-up">
+            <Card className="card-modern sticky top-24">
               <CardHeader>
-                <CardTitle className="text-xl font-bold gradient-text flex items-center">
-                  <ShoppingCart className="w-5 h-5 mr-2" />
+                <CardTitle className="flex items-center">
+                  <ShoppingCart className="w-5 h-5 mr-2 text-primary" />
                   Ringkasan Vote
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 {getTotalVotes() === 0 ? (
-                  <div className="text-center py-12">
-                    <div className="w-20 h-20 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse-glow">
-                      <Users className="w-10 h-10 text-white" />
+                  <div className="text-center py-8">
+                    <div className="w-16 h-16 bg-muted rounded-2xl flex items-center justify-center mx-auto mb-4">
+                      <Users className="w-8 h-8 text-muted-foreground" />
                     </div>
-                    <p className="text-foreground/70 text-lg font-medium mb-2">Belum ada sekolah yang dipilih</p>
-                    <p className="text-foreground/50">Pilih sekolah dan tentukan jumlah suara ✨</p>
+                    <p className="text-muted-foreground font-medium mb-2">Belum ada sekolah yang dipilih</p>
+                    <p className="text-sm text-muted-foreground">Pilih sekolah dan tentukan jumlah suara</p>
                   </div>
                 ) : (
-                  <div className="space-y-6">
+                  <div className="space-y-4">
                     {Object.entries(selectedVotes).map(([schoolId, votes]) => {
                       const school = schools.find((s) => s.id === Number.parseInt(schoolId))
                       if (!school) return null
@@ -389,48 +277,48 @@ export default function DashboardPage() {
                       return (
                         <div
                           key={schoolId}
-                          className="flex justify-between items-center py-3 border-b border-border/50 animate-slide-up"
+                          className="flex justify-between items-center py-3 border-b border-border last:border-b-0"
                         >
                           <div>
-                            <p className="font-semibold text-foreground">{school.name}</p>
-                            <p className="text-sm text-foreground/70">{votes} suara</p>
+                            <p className="font-medium text-foreground text-sm">{school.name}</p>
+                            <p className="text-xs text-muted-foreground">{votes} suara</p>
                           </div>
-                          <p className="font-bold text-foreground text-lg">
+                          <p className="font-semibold text-foreground">
                             Rp {(votes * school.price).toLocaleString()}
                           </p>
                         </div>
                       )
                     })}
 
-                    <div className="border-t border-border pt-6 mt-6 space-y-4">
+                    <div className="border-t border-border pt-4 space-y-3">
                       <div className="flex justify-between items-center">
-                        <span className="font-semibold text-foreground/80 text-lg">Total Suara:</span>
-                        <span className="font-bold text-foreground text-xl">{getTotalVotes()}</span>
+                        <span className="font-medium text-muted-foreground">Total Suara:</span>
+                        <span className="font-bold text-foreground text-lg">{getTotalVotes()}</span>
                       </div>
                       <div className="flex justify-between items-center">
-                        <span className="font-semibold text-foreground/80 text-lg">Total Harga:</span>
-                        <span className="font-bold gradient-text text-2xl">Rp {getTotalPrice().toLocaleString()}</span>
+                        <span className="font-medium text-muted-foreground">Total Harga:</span>
+                        <span className="font-bold text-primary text-xl">Rp {getTotalPrice().toLocaleString()}</span>
                       </div>
 
                       <Button
                         onClick={handlePaymentAndVote}
                         disabled={isProcessingPayment}
-                        className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white py-4 text-xl font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 animate-pulse-glow mt-6"
+                        className="w-full btn-primary mt-4"
                       >
                         {isProcessingPayment ? (
                           <div className="flex items-center space-x-2">
-                            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                             <span>Memproses Pembayaran...</span>
                           </div>
                         ) : (
                           <div className="flex items-center space-x-2">
-                            <Heart className="w-5 h-5" />
+                            <Heart className="w-4 h-4" />
                             <span>Bayar & Vote</span>
                           </div>
                         )}
                       </Button>
 
-                      <p className="text-sm text-foreground/60 text-center mt-4">
+                      <p className="text-xs text-muted-foreground text-center mt-3">
                         🔒 Pembayaran aman dengan enkripsi SSL
                       </p>
                     </div>
