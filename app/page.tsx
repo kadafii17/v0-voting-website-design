@@ -6,19 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Navigation } from "@/components/ui/navigation"
-import {
-  Star,
-  Users,
-  MapPin,
-  Trophy,
-  Heart,
-  ArrowRight,
-  CheckCircle,
-  TrendingUp,
-  Award,
-  Target,
-  Sparkles,
-} from "lucide-react"
+import { Star, Users, MapPin, Trophy, Heart, ArrowRight, CircleCheck as CheckCircle, TrendingUp, Award, Target, Sparkles } from "lucide-react"
 
 const topSchools = [
   {

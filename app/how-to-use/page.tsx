@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Navigation } from "@/components/ui/navigation"
-import { UserPlus, LogIn, Vote, CreditCard, Trophy, ArrowRight, HelpCircle } from "lucide-react"
+import { UserPlus, LogIn, Vote, CreditCard, Trophy, ArrowRight, CircleHelp as HelpCircle } from "lucide-react"
 import Link from "next/link"
 
 const steps = [

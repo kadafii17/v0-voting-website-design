@@ -3,17 +3,7 @@
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Navigation } from "@/components/ui/navigation"
-import {
-  Users,
-  MapPin,
-  Trophy,
-  Heart,
-  TrendingUp,
-  Calendar,
-  Award,
-  Target,
-  BarChart3,
-} from "lucide-react"
+import { Users, MapPin, Trophy, Heart, TrendingUp, Calendar, Award, Target, ChartBar as BarChart3 } from "lucide-react"
 
 const detailedStats = [
   { label: "Total Sekolah Terdaftar", value: 1247, icon: Trophy, color: "text-purple-600", bg: "bg-purple-50" },

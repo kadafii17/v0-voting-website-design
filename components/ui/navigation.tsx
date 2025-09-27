@@ -17,18 +17,7 @@ import {
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import {
-  Home,
-  BarChart3,
-  HelpCircle,
-  User,
-  Settings,
-  LogOut,
-  Menu,
-  Trophy,
-  Moon,
-  Sun,
-} from "lucide-react"
+import { Chrome as Home, ChartBar as BarChart3, CircleHelp as HelpCircle, User, Settings, LogOut, Menu, Trophy, Moon, Sun } from "lucide-react"
 
 interface NavigationProps {
   user?: {
